@@ -46,7 +46,7 @@ router.post('/add', upload, async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         // Using await to get the users
-        const users = await User.find(); // No need for .exec() here, just await User.find()
+        const users = await User.find(); //just await User.find()
         
         console.log(users);  // Optional, for logging the result
 

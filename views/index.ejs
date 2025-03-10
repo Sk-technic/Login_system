@@ -9,40 +9,54 @@
     <title>Document</title>
 </head>
 
-<body>
+<body class="flex flex-col jusify-center items-center bg-zinc-600 h-screen ">
     <%- include('layout/header') %>
 
         <% if (message && message.type) { %>
-            <div   class="bg-gradient-to-r from-lime-400 to-yellow-400 p-2 flex flex-col justify-start mx-20 mt-5 rounded-md ">
-                <span class="text-lg"><%= message.type %></span>
-                <strong class="text-md"><%= message.content %></strong>
-            </div>
+       
+<div class="w-full h-[100px] ">
+
+    <div id="alertMessage"   class="bg-gradient-to-r w-fit scale-75 ml-[300px] from-lime-400 to-yellow-400 p-2 flex flex-col justify-start mx-20 mt-5 rounded-md ">
+        <span class="text-lg"><%= message.type %></span>
+        <strong class="text-md"><%= message.content %></strong>
+    </div>
+</div>
+                <script>
+                    setTimeout(() => {
+                        const alertBox = document.getElementById('alertMessage');
+                        if (alertBox) {
+                            alertBox.style.transition = "opacity 0.5s ease";
+                            alertBox.style.opacity = "0";
+                            setTimeout(() => alertBox.remove(), 1000); // Remove after fade-out
+                        }
+                    }, 2000);
+                </script>
         <% } %>
 
-        <main class="flex justify-center items-center p-10">
+        <main class="flex justify-center items-center p-10 w-[70%]">
             <% if (users !== "" && users.length > 0) { %>
-                <table class="bg-zinc-50 text-zinc-600">
+                <table class=" text-zinc-800 w-full">
                     <thead>
-                        <tr class="bg-zinc-500 text-white">
-                            <th scope="col">ID</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Phone</th>
-                            <th scope="col">Action</th>
+                        <tr class="bg-zinc-800 text-white">
+                            <th scope="col" class="text-start pl-1 pr-6 py-3">ID</th>
+                            <th scope="col" class="text-start pl-1 pr-6 py-3">Image</th>
+                            <th scope="col" class="text-start pl-1 pr-6 py-3">Name</th>
+                            <th scope="col" class="text-start pl-1 pr-6 py-3">Email</th>
+                            <th scope="col" class="text-start pl-1 pr-6 py-3">Phone</th>
+                            <th scope="col" class="text-start pl-1 pr-6 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% users.forEach((row, index) => { %>
-                            <tr>
-                                <td><%= index*2 +2*3 /2 %></td>
-                                <td><img src="<%= row.image %>" alt="User Image" class="w-10 "></td>
-                                <td><%= row.name %></td>
-                                <td><%= row.email %></td>
-                                <td><%= row.phone %></td>
-                                <td>
-                                    <a href="/edit/<%= row._id %>">Edit</a>
-                                    <a href="/delete/<%= row._id %>">Delete</a>
+                            <tr class=" h-[20px] border-b-1 border-zinc-400 bg-zinc-300 text-zinc-800">
+                                <td class="text-start  pl-1 pr-3 h-fit py-1"><%= index +1 %></td>
+                                <td class="text-start     h-fit py-1 flex justify-center items-center"><img src="<%= row.image %>" alt="User Image" class="w-10 h-10 rounded-full overflow-hidden"></td>
+                                <td class="text-start  pl-1 pr-3 h-fit py-1"><%= row.name %></td>
+                                <td class="text-start  pl-1 pr-3 h-fit py-1"><%= row.email %></td>
+                                <td class="text-start  pl-1 pr-3 h-fit py-1"><%= row.phone %></td>
+                                <td class="text-start  pl-1 space-x-5  px-3">
+                                    <a href="/edit/<%= row._id %>"><i class="fa-solid fa-file-pen text-sky-600"></i></a>
+                                    <a href="/delete/<%= row._id %>"><i class="fa-solid fa-user-slash text-rose-500"></i></a>
                                 </td>
                             </tr>
                         <% }) %>

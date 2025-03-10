@@ -12,7 +12,7 @@ const PORT = process.env.PORT
 
 mongoose.connect(process.env.DB_URI, {useNewUrlParser:true, useUnifiedTopology:true});
 const db = mongoose.connection;
-db.on('error',(err)=>{
+db.on('disconnect',(err)=>{
     console.log(err);
 })
 db.once('open',()=>{
@@ -21,7 +21,6 @@ db.once('open',()=>{
 })
 
 //middelwares
-// app.use(bodyParser.urlencoded());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(session({
@@ -31,10 +30,11 @@ app.use(session({
 }))
 
 app.use((req,res,next)=>{
-    res.locals.message = req.session.message;
+    res.locals.message = req.session.message;    
     delete req.session.message;
     next();
 })
+
 //for image view;
 app.use(express.static('uploads'));
 
